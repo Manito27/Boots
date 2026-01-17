@@ -587,7 +587,7 @@
             <div class="share-box">
                 <p style="color: #FFD700; margin-bottom: 15px; font-weight: 600;"><i class="fas fa-comment"></i> Frase pronta para enviar:</p>
                 <div class="share-text" id="shareMessage">
-                    Acabei de girar uma roleta e ganhei um prêmio! Você também pode participar e ganhar prêmios incríveis! Clique no link para jogar: https://roletadasorte.com
+                    Acabei de girar uma roleta e ganhei um prêmio! Você também pode participar e ganhar prêmios incríveis! Clique no link para jogar: https://roletadasort.netlify.app/
                 </div>
                 
                 <div class="share-buttons">
@@ -614,10 +614,10 @@
             <div class="terms">
                 <p><strong>Termos de Uso e Direitos Reservados</strong></p>
                 <p>© 2025 Roleta da Sorte – Todos os direitos reservados.</p>
-                <p>A presente simulação interativa tem como principal finalidade o estímulo à participação em ofertas promocionais vinculadas a plataformas externas. Os valores exibidos na roleta não representam prémios efetivamente creditáveis.</p>
+                <p>A presente simulação interativa tem como principal finalidade o estímulo à participação em ofertas promocionais vinculadas a plataformas externas. Os valores exibidos na roleta representam prémios efetivamente creditáveis.</p>
             </div>
-            <div class="copyright">Esta é uma demonstração de página web para fins educacionais.</div>
-            <div class="developer">Desenvolvido por CYBER HACKER OFFICE</div>
+            <div class="copyright"></div>
+            <div class="developer">Desenvolvido por MugiWara</div>
         </footer>
     </div>
 
@@ -803,10 +803,13 @@
         whatsappBtn.addEventListener('click', shareOnWhatsApp);
         
         // Botão de resgatar prêmio
-        claimBtn.addEventListener('click', () => {
-            alert('Prêmio resgatado com sucesso! Em breve você receberá as instruções para recebimento.');
-            resultSection.style.display = 'none';
-        });
+// Botão de resgatar prêmio
+claimBtn.addEventListener('click', () => {
+    alert('Prêmio resgatado com sucesso! Em breve você receberá as instruções para recebimento.');
+    
+    // Redireciona para a URL desejada
+    window.location.href = 'https://media1.placard.co.mz/redirect.aspx?pid=5078&bid=1690';
+});
         
         // Inicializar
         drawWheel();
