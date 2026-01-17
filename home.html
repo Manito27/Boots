@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta da Sorte - Gire e Ganhe!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f1b3d 0%, #1a2b5c 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,50 Q25,40 50,50 T100,50" stroke="rgba(255,215,0,0.05)" fill="none"/><path d="M0,30 Q25,20 50,30 T100,30" stroke="rgba(255,215,0,0.05)" fill="none"/><path d="M0,70 Q25,60 50,70 T100,70" stroke="rgba(255,215,0,0.05)" fill="none"/></svg>');
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 20px 0 30px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #fff;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        /* Timer Section */
+        .timer-section {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 0 auto 30px;
+            max-width: 500px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid #FFD700;
+            text-align: center;
+        }
+
+        .timer-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 15px;
+        }
+
+        .timer-value {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            min-width: 80px;
+            border: 2px solid #FFD700;
+        }
+
+        .timer-label {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        .timer-text {
+            font-size: 1.1rem;
+            color: #FFD700;
+            margin-top: 10px;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* Wheel Section */
+        .wheel-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .wheel-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #FFD700;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 0 auto 30px;
+        }
+
+        #wheelCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: #FFD700;
+            border-radius: 50%;
+            z-index: 10;
+            border: 5px solid #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: #FF0000;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 20;
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .spin-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 18px 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to bottom, #FFD700, #FFAA00);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .spin-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .spin-btn:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .attempts-info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #FFD700;
+        }
+
+        .attempts-info i {
+            margin-right: 8px;
+        }
+
+        /* Prizes Section */
+        .prizes-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #FFD700;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+        }
+
+        .prizes-list {
+            list-style: none;
+        }
+
+        .prize-item {
+            background: rgba(255, 255, 255, 0.08);
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            border-left: 5px solid #FFD700;
+            transition: transform 0.3s;
+        }
+
+        .prize-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .prize-item i {
+            color: #FFD700;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .prize-amount {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #FFD700;
+        }
+
+        .prize-description {
+            color: #aaa;
+            margin-top: 5px;
+            font-size: 0.95rem;
+        }
+
+        /* Share Section */
+        .share-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .share-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+
+        .share-description {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .share-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px dashed #FFD700;
+        }
+
+        .share-text {
+            font-size: 1rem;
+            color: #ddd;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border-left: 4px solid #25D366;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .copy-btn {
+            background: linear-gradient(to right, #4A6FA5, #6B8CC1);
+            color: white;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(to right, #25D366, #128C7E);
+            color: white;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Result Section */
+        .result-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            display: none;
+        }
+
+        .result-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+
+        .result-prize {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 3px solid #FFD700;
+        }
+
+        .claim-btn {
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #FF416C, #FF4B2B);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 65, 108, 0.3);
+            margin-top: 20px;
+        }
+
+        .claim-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(255, 65, 108, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+            border-top: 2px solid #FFD700;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+
+        .terms {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        .developer {
+            font-size: 0.85rem;
+            color: #FFD700;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .wheel-container {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .timer {
+                font-size: 2rem;
+            }
+            
+            .timer-value {
+                min-width: 60px;
+                padding: 8px 15px;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+            }
+            
+            .share-btn {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">RO<span>LETA</span> DA SORTE</h1>
+            <p class="subtitle">Gire a roleta e ganhe prêmios incríveis!</p>
+            
+            <div class="timer-section">
+                <h2 class="timer-title">Você tem <span id="timeRemaining">01:59</span> para girar e garantir sua chance gratuita!</h2>
+                <div class="timer">
+                    <div class="timer-unit">
+                        <div class="timer-value" id="minutes">01</div>
+                        <div class="timer-label">Minutos</div>
+                    </div>
+                    <div class="timer-unit">
+                        <div class="timer-value" id="seconds">59</div>
+                        <div class="timer-label">Segundos</div>
+                    </div>
+                </div>
+                <p class="timer-text">Chegou sua vez de ganhar!</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <section class="wheel-section">
+                <h2 class="wheel-title">Gire a Roleta da Sorte!</h2>
+                
+                <div class="wheel-container">
+                    <div class="pointer"></div>
+                    <canvas id="wheelCanvas" width="320" height="320"></canvas>
+                    <div class="wheel-center"></div>
+                </div>
+                
+                <button id="spinBtn" class="spin-btn">GIRAR</button>
+                
+                <div class="attempts-info">
+                    <i class="fas fa-gift"></i> Você tem <span id="attemptsCount">2</span> tentativas totalmente grátis!
+                </div>
+                
+                <p style="text-align: center; margin-top: 20px; color: #FFD700; font-size: 1.1rem;">
+                    A roleta está cheia de prêmios esperando por você!
+                </p>
+            </section>
+            
+            <section class="prizes-section">
+                <h2 class="section-title"><i class="fas fa-trophy"></i> Prêmios da Roleta da Sorte</h2>
+                
+                <ul class="prizes-list">
+                    <li class="prize-item">
+                        <i class="fas fa-coins"></i>
+                        <div>
+                            <div class="prize-amount">10 Meticais</div>
+                            <div class="prize-description">Comece com sorte!</div>
+                        </div>
+                    </li>
+                    <li class="prize-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div>
+                            <div class="prize-amount">100 Meticais</div>
+                            <div class="prize-description">Já dá pra comemorar!</div>
+                        </div>
+                    </li>
+                    <li class="prize-item">
+                        <i class="fas fa-gem"></i>
+                        <div>
+                            <div class="prize-amount">500 Meticais</div>
+                            <div class="prize-description">Subindo o nível!</div>
+                        </div>
+                    </li>
+                    <li class="prize-item">
+                        <i class="fas fa-crown"></i>
+                        <div>
+                            <div class="prize-amount">1.000 Meticais</div>
+                            <div class="prize-description">Agora sim!</div>
+                        </div>
+                    </li>
+                    <li class="prize-item">
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <div class="prize-amount">5.000 Meticais</div>
+                            <div class="prize-description">Sorte grande!</div>
+                        </div>
+                    </li>
+                    <li class="prize-item">
+                        <i class="fas fa-gift"></i>
+                        <div>
+                            <div class="prize-amount">10.000 Meticais</div>
+                            <div class="prize-description">O prêmio dos sonhos! 🎉</div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+        
+        <section class="share-section">
+            <h2 class="share-title">GANHE MAIS GIROS GRÁTIS!</h2>
+            <p class="share-description">Compartilhe o site com seus amigos e ganhe <strong>+1 giro grátis</strong> a cada pessoa!</p>
+            
+            <div class="share-box">
+                <p style="color: #FFD700; margin-bottom: 15px; font-weight: 600;"><i class="fas fa-comment"></i> Frase pronta para enviar:</p>
+                <div class="share-text" id="shareMessage">
+                    Acabei de girar uma roleta e ganhei um prêmio! Você também pode participar e ganhar prêmios incríveis! Clique no link para jogar: https://roletadasorte.com
+                </div>
+                
+                <div class="share-buttons">
+                    <button id="copyBtn" class="share-btn copy-btn">
+                        <i class="far fa-copy"></i> Copiar mensagem
+                    </button>
+                    <button id="whatsappBtn" class="share-btn whatsapp-btn">
+                        <i class="fab fa-whatsapp"></i> Compartilhar no WhatsApp
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="result-section" id="resultSection">
+            <h2 class="result-title">🎉 Parabéns! 🎉</h2>
+            <p style="font-size: 1.3rem; margin-bottom: 10px;">Você ganhou:</p>
+            <div class="result-prize" id="resultPrize">100 Meticais</div>
+            <p style="font-size: 1.1rem; color: #aaa; margin-bottom: 20px;">Prêmio adicionado à sua conta!</p>
+            <button class="claim-btn">Resgatar Prêmio</button>
+        </section>
+        
+        <footer>
+            <div class="footer-logo">Roleta da Sorte</div>
+            <div class="terms">
+                <p><strong>Termos de Uso e Direitos Reservados</strong></p>
+                <p>© 2025 Roleta da Sorte – Todos os direitos reservados.</p>
+                <p>A presente simulação interativa tem como principal finalidade o estímulo à participação em ofertas promocionais vinculadas a plataformas externas. Os valores exibidos na roleta não representam prémios efetivamente creditáveis.</p>
+            </div>
+            <div class="copyright">Esta é uma demonstração de página web para fins educacionais.</div>
+            <div class="developer">Desenvolvido por CYBER HACKER OFFICE</div>
+        </footer>
+    </div>
+
+    <script>
+        // Elementos do DOM
+        const wheelCanvas = document.getElementById('wheelCanvas');
+        const ctx = wheelCanvas.getContext('2d');
+        const spinBtn = document.getElementById('spinBtn');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const timeRemainingEl = document.getElementById('timeRemaining');
+        const attemptsCountEl = document.getElementById('attemptsCount');
+        const resultSection = document.getElementById('resultSection');
+        const resultPrizeEl = document.getElementById('resultPrize');
+        const copyBtn = document.getElementById('copyBtn');
+        const whatsappBtn = document.getElementById('whatsappBtn');
+        const shareMessageEl = document.getElementById('shareMessage');
+        const claimBtn = document.querySelector('.claim-btn');
+        
+        // Configurações da roleta
+        const prizes = [
+            "10 Meticais",
+            "100 Meticais", 
+            "500 Meticais",
+            "1.000 Meticais",
+            "5.000 Meticais",
+            "10.000 Meticais",
+            "50 Meticais",
+            "200 Meticais"
+        ];
+        
+        const prizeColors = [
+            '#FF7675', '#74B9FF', '#55E6C1', '#FDCB6E',
+            '#A29BFE', '#FD79A8', '#00CEC9', '#E17055'
+        ];
+        
+        // Estado do jogo
+        let rotation = 0;
+        let isSpinning = false;
+        let attempts = 2;
+        let countdown = 119; // 1 minuto e 59 segundos
+        
+        // Inicializar a roleta
+        function drawWheel() {
+            const centerX = wheelCanvas.width / 2;
+            const centerY = wheelCanvas.height / 2;
+            const radius = Math.min(centerX, centerY) - 10;
+            const arc = (2 * Math.PI) / prizes.length;
+            
+            // Limpar canvas
+            ctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+            
+            // Desenhar segmentos da roleta
+            for (let i = 0; i < prizes.length; i++) {
+                const startAngle = i * arc;
+                const endAngle = (i + 1) * arc;
+                
+                // Desenhar segmento
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = prizeColors[i];
+                ctx.fill();
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Desenhar texto
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + arc / 2);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#000000';
+                ctx.font = 'bold 14px Arial';
+                ctx.fillText(prizes[i], radius - 20, 5);
+                ctx.restore();
+            }
+            
+            // Desenhar centro da roleta
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 15, 0, 2 * Math.PI);
+            ctx.fillStyle = '#FFD700';
+            ctx.fill();
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+        
+        // Inicializar contador
+        function startCountdown() {
+            const countdownInterval = setInterval(() => {
+                const minutes = Math.floor(countdown / 60);
+                const seconds = countdown % 60;
+                
+                minutesEl.textContent = minutes.toString().padStart(2, '0');
+                secondsEl.textContent = seconds.toString().padStart(2, '0');
+                timeRemainingEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    spinBtn.disabled = true;
+                    spinBtn.textContent = 'TEMPO ESGOTADO';
+                }
+                
+                countdown--;
+            }, 1000);
+        }
+        
+        // Girar a roleta
+        function spinWheel() {
+            if (isSpinning || attempts <= 0) return;
+            
+            isSpinning = true;
+            attempts--;
+            attemptsCountEl.textContent = attempts;
+            spinBtn.disabled = true;
+            
+            // Adicionar rotação aleatória (mínimo 3 voltas completas)
+            const spinRotation = rotation + 1080 + Math.floor(Math.random() * 360);
+            rotation = spinRotation;
+            
+            // Aplicar animação de rotação
+            wheelCanvas.style.transform = `rotate(${rotation}deg)`;
+            
+            // Determinar prêmio após a rotação
+            setTimeout(() => {
+                const normalizedRotation = rotation % 360;
+                const segmentAngle = 360 / prizes.length;
+                const winningIndex = Math.floor(((360 - normalizedRotation) % 360) / segmentAngle);
+                const winningPrize = prizes[winningIndex];
+                
+                // Mostrar resultado
+                showResult(winningPrize);
+                isSpinning = false;
+                
+                // Habilitar botão novamente se ainda houver tentativas
+                if (attempts > 0) {
+                    spinBtn.disabled = false;
+                } else {
+                    spinBtn.textContent = 'TENTATIVAS ESGOTADAS';
+                }
+            }, 4000);
+        }
+        
+        // Mostrar resultado
+        function showResult(prize) {
+            resultPrizeEl.textContent = prize;
+            resultSection.style.display = 'block';
+            
+            // Rolar até o resultado
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Compartilhar no WhatsApp
+        function shareOnWhatsApp() {
+            const message = encodeURIComponent(shareMessageEl.textContent);
+            window.open(`https://wa.me/?text=${message}`, '_blank');
+        }
+        
+        // Copiar mensagem para a área de transferência
+        function copyToClipboard() {
+            navigator.clipboard.writeText(shareMessageEl.textContent)
+                .then(() => {
+                    // Feedback visual
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Mensagem copiada!';
+                    copyBtn.style.background = 'linear-gradient(to right, #2ecc71, #27ae60)';
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                        copyBtn.style.background = 'linear-gradient(to right, #4A6FA5, #6B8CC1)';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Erro ao copiar: ', err);
+                });
+        }
+        
+        // Event Listeners
+        spinBtn.addEventListener('click', spinWheel);
+        copyBtn.addEventListener('click', copyToClipboard);
+        whatsappBtn.addEventListener('click', shareOnWhatsApp);
+        
+        // Botão de resgatar prêmio
+        claimBtn.addEventListener('click', () => {
+            alert('Prêmio resgatado com sucesso! Em breve você receberá as instruções para recebimento.');
+            resultSection.style.display = 'none';
+        });
+        
+        // Inicializar
+        drawWheel();
+        startCountdown();
+        
+        // Efeito de partículas no fundo (simples)
+        function createParticles() {
+            const container = document.querySelector('.container');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 5 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = '#FFD700';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                particle.style.zIndex = '-1';
+                container.appendChild(particle);
+                
+                // Animação
+                animateParticle(particle);
+            }
+        }
+        
+        function animateParticle(particle) {
+            let x = parseFloat(particle.style.left);
+            let y = parseFloat(particle.style.top);
+            let xSpeed = Math.random() * 0.5 - 0.25;
+            let ySpeed = Math.random() * 0.5 - 0.25;
+            
+            function move() {
+                x += xSpeed;
+                y += ySpeed;
+                
+                // Rebater nas bordas
+                if (x <= 0 || x >= 100) xSpeed = -xSpeed;
+                if (y <= 0 || y >= 100) ySpeed = -ySpeed;
+                
+                particle.style.left = x + 'vw';
+                particle.style.top = y + 'vh';
+                
+                requestAnimationFrame(move);
+            }
+            
+            move();
+        }
+        
+        // Criar partículas após carregamento
+        window.addEventListener('load', createParticles);
+    </script>
+</body>
+</html>
