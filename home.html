@@ -617,7 +617,7 @@
                 <p>A presente simulação interativa tem como principal finalidade o estímulo à participação em ofertas promocionais vinculadas a plataformas externas. Os valores exibidos na roleta representam prémios efetivamente creditáveis.</p>
             </div>
             <div class="copyright"></div>
-            <div class="developer">Desenvolvido por MugiWara</div>
+            <div class="developer">Desenvolvido por Captain</div>
         </footer>
     </div>
 
@@ -804,11 +804,21 @@
         
         // Botão de resgatar prêmio
 // Botão de resgatar prêmio
+// Botão de resgatar prêmio - ABRE DIRETAMENTE O LINK
 claimBtn.addEventListener('click', () => {
-    alert('Prêmio resgatado com sucesso! Em breve você receberá as instruções para recebimento.');
+    // Abre o link automaticamente sem alert
+    window.open('https://media1.placard.co.mz/redirect.aspx?pid=5078&bid=1690', '_blank');
     
-    // Redireciona para a URL desejada
-    window.location.href = 'https://media1.placard.co.mz/redirect.aspx?pid=5078&bid=1690';
+    // Opcional: Mostra uma mensagem rápida (pode remover se quiser)
+    const originalText = claimBtn.textContent;
+    claimBtn.textContent = 'Redirecionando...';
+    claimBtn.style.background = 'linear-gradient(to right, #2ecc71, #27ae60)';
+    
+    // Restaura o botão após 1 segundo (opcional)
+    setTimeout(() => {
+        claimBtn.textContent = originalText;
+        claimBtn.style.background = 'linear-gradient(to right, #FF416C, #FF4B2B)';
+    }, 1000);
 });
         
         // Inicializar
