@@ -420,6 +420,87 @@
             box-shadow: 0 15px 25px rgba(255, 65, 108, 0.4);
         }
 
+        /* Winners Section */
+        .winners-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .winners-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #FFD700;
+            display: flex;
+            align-items: center;
+        }
+
+        .winners-title i {
+            margin-right: 10px;
+        }
+
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .winner-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .winner-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFD700;
+        }
+
+        .winner-photo {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .winner-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .winner-name {
+            font-weight: 600;
+            color: #FFD700;
+            margin-bottom: 5px;
+        }
+
+        .winner-prize {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .winner-date {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .winners-note {
+            text-align: center;
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            color: #FFD700;
+            font-size: 1.1rem;
+            border-left: 4px solid #FFD700;
+        }
+
         /* Footer */
         footer {
             background: rgba(0, 0, 0, 0.5);
@@ -484,6 +565,16 @@
             .share-btn {
                 min-width: 100%;
             }
+            
+            .winners-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .winners-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -493,6 +584,72 @@
             <h1 class="logo">RO<span>LETA</span> DA SORTE</h1>
             <p class="subtitle">Gire a roleta e ganhe prêmios incríveis!</p>
             
+
+            <section class="winners-section">
+            <h2 class="winners-title"><i class="fas fa-users"></i> Nossos Vencedores Recentes</h2>
+            
+            <div class="winners-grid">
+                <div class="winner-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29uJTIwc21pbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=80" alt="Vencedor 1" class="winner-photo">
+                    <div class="winner-info">
+                        <div class="winner-name">Carlos M.</div>
+                        <div class="winner-prize">Ganhou 5.000 Meticais</div>
+                        <div class="winner-date">Hoje às 14:30</div>
+                    </div>
+                </div>
+                
+                <div class="winner-card">
+                    <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29uJTIwc21pbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=80" alt="Vencedora 2" class="winner-photo">
+                    <div class="winner-info">
+                        <div class="winner-name">Ana S.</div>
+                        <div class="winner-prize">Ganhou 1.000 Meticais</div>
+                        <div class="winner-date">Hoje às 12:15</div>
+                    </div>
+                </div>
+                
+                <div class="winner-card">
+                    <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29uJTIwc21pbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=80" alt="Vencedor 3" class="winner-photo">
+                    <div class="winner-info">
+                        <div class="winner-name">João P.</div>
+                        <div class="winner-prize">Ganhou 10.000 Meticais</div>
+                        <div class="winner-date">Ontem às 18:45</div>
+                    </div>
+                </div>
+                
+                <div class="winner-card">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHBlcnNvbiUyMHNtaWxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=80" alt="Vencedora 4" class="winner-photo">
+                    <div class="winner-info">
+                        <div class="winner-name">Maria L.</div>
+                        <div class="winner-prize">Ganhou 500 Meticais</div>
+                        <div class="winner-date">Ontem às 10:20</div>
+                    </div>
+                </div>
+                
+                <div class="winner-card">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGVyc29uJTIwc21pbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=80" alt="Vencedor 5" class="winner-photo">
+                    <div class="winner-info">
+                        <div class="winner-name">Pedro K.</div>
+                        <div class="winner-prize">Ganhou 100 Meticais</div>
+                        <div class="winner-date">25/11/2024</div>
+                    </div>
+                </div>
+                
+                <div class="winner-card">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBlcnNvbiUyMHNtaWxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=80" alt="Vencedora 6" class="winner-photo">
+                    <div class="winner-info">
+                        <div class="winner-name">Sofia T.</div>
+                        <div class="winner-prize">Ganhou 200 Meticais</div>
+                        <div class="winner-date">24/11/2024</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="winners-note">
+                <i class="fas fa-trophy"></i> Mais de <strong>1.247 pessoas</strong> já ganharam prêmios esta semana! A próxima pode ser você!
+            </div>
+        </section>
+
+
             <div class="timer-section">
                 <h2 class="timer-title">Você tem <span id="timeRemaining">01:59</span> para girar e garantir sua chance gratuita!</h2>
                 <div class="timer">
@@ -608,6 +765,8 @@
             <p style="font-size: 1.1rem; color: #aaa; margin-bottom: 20px;">Prêmio adicionado à sua conta!</p>
             <button class="claim-btn">Resgatar Prêmio</button>
         </section>
+        
+
         
         <footer>
             <div class="footer-logo">Roleta da Sorte</div>
@@ -797,29 +956,50 @@
                 });
         }
         
+        // Rotação automática das fotos dos vencedores
+        function rotateWinnerPhotos() {
+            const winnerPhotos = document.querySelectorAll('.winner-photo');
+            const photoUrls = [
+                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                'https://images.unsplash.com/photo-1494790108755-2616b786d4d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                'https://images.unsplash.com/photo-1502767089025-6572583495f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+            ];
+            
+            // Muda uma foto aleatória a cada 10 segundos
+            setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * winnerPhotos.length);
+                const randomPhoto = photoUrls[Math.floor(Math.random() * photoUrls.length)];
+                
+                winnerPhotos[randomIndex].src = randomPhoto + '&' + new Date().getTime(); // Cache bust
+            }, 10000);
+        }
+        
         // Event Listeners
         spinBtn.addEventListener('click', spinWheel);
         copyBtn.addEventListener('click', copyToClipboard);
         whatsappBtn.addEventListener('click', shareOnWhatsApp);
         
-        // Botão de resgatar prêmio
-// Botão de resgatar prêmio
-// Botão de resgatar prêmio - ABRE DIRETAMENTE O LINK
-claimBtn.addEventListener('click', () => {
-    // Abre o link automaticamente sem alert
-    window.open('https://media1.placard.co.mz/redirect.aspx?pid=5078&bid=1690', '_blank');
-    
-    // Opcional: Mostra uma mensagem rápida (pode remover se quiser)
-    const originalText = claimBtn.textContent;
-    claimBtn.textContent = 'Redirecionando...';
-    claimBtn.style.background = 'linear-gradient(to right, #2ecc71, #27ae60)';
-    
-    // Restaura o botão após 1 segundo (opcional)
-    setTimeout(() => {
-        claimBtn.textContent = originalText;
-        claimBtn.style.background = 'linear-gradient(to right, #FF416C, #FF4B2B)';
-    }, 1000);
-});
+        // Botão de resgatar prêmio - ABRE DIRETAMENTE O LINK
+        claimBtn.addEventListener('click', () => {
+            // Abre o link automaticamente sem alert
+            window.open('https://media1.placard.co.mz/redirect.aspx?pid=5078&bid=1690', '_blank');
+            
+            // Opcional: Mostra uma mensagem rápida (pode remover se quiser)
+            const originalText = claimBtn.textContent;
+            claimBtn.textContent = 'Redirecionando...';
+            claimBtn.style.background = 'linear-gradient(to right, #2ecc71, #27ae60)';
+            
+            // Restaura o botão após 1 segundo (opcional)
+            setTimeout(() => {
+                claimBtn.textContent = originalText;
+                claimBtn.style.background = 'linear-gradient(to right, #FF416C, #FF4B2B)';
+            }, 1000);
+        });
         
         // Inicializar
         drawWheel();
@@ -871,6 +1051,9 @@ claimBtn.addEventListener('click', () => {
         
         // Criar partículas após carregamento
         window.addEventListener('load', createParticles);
+        
+        // Inicializar rotação de fotos dos vencedores
+        window.addEventListener('load', rotateWinnerPhotos);
     </script>
 </body>
 </html>
